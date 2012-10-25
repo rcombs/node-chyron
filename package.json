@@ -1,0 +1,20 @@
+{
+	"name": "chyron",
+	"version": "1.0.0",
+	"description": "Bidirectional communication with Chyron III-compatible devices",
+	"main": "index.js",
+	"dependencies": {},
+	"bin": {
+		"chyron-shell": "./test.js"
+	},
+	"devDependencies": {},
+	"keywords": [
+		"Chyron",
+		"Infinit",
+		"Deko",
+		"Infinit Intelligent Interface",
+		"Intelligent Interface"
+	],
+	"author": "Rodger Combs",
+	"license": "BSD"
+}
