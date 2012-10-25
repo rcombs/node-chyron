@@ -30,7 +30,7 @@ exports.prototype.disconnect = function(){
 	this.client.destroy();
 };
 
-exports.prototype.writeTabMessage = function(message, descriptor, templateDataArray, id) {
+exports.prototype.writeTab = function(message, descriptor, templateDataArray, id) {
 	this.raw((id ? ("w\\" + id) : "W") + "\\" + message + "\\" + descriptor + "\\" + templateDataArray.join("\\"));
 };
 
