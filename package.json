@@ -1,10 +1,10 @@
 {
 	"name": "chyron",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"description": "Bidirectional communication with Chyron III-compatible devices",
 	"main": "index.js",
 	"dependencies": {
-		"node-serialport": ">=1.0.8"
+		"serialport": ">=1.0.8"
 	},
 	"bin": {
 		"chyron-shell": "./test.js"

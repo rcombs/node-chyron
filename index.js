@@ -1,6 +1,6 @@
 var events = require("events"),
 	net = require("net"),
-	SerialPort = require("serialport").SerialPort;
+	SerialPort = require("serialport");
 
 var exports = module.exports = function(ip, port, callback){
 	var self = this;
@@ -32,7 +32,7 @@ var exports = module.exports = function(ip, port, callback){
 exports.prototype = new events.EventEmitter();
 
 exports.prototype.setupRS232 = function(port, options){
-	this.socket = new SerialPort(port, options, function(){
+	this.socket = new SerialPort.SerialPort(port, options, function(){
 		self.emit("connected");
 	});
 }
