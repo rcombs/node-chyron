@@ -9,7 +9,7 @@ var exports = module.exports = function(ip, port, callback){
 		this.mode = "RS232";
 	}
 	if(callback){
-		this.addEventListener("connected", callback);
+		this.on("connected", callback);
 	}
 	if(this.mode == "NET"){
 		this.socket = new net.Socket();
@@ -38,6 +38,7 @@ exports.prototype.setupRS232 = function(port, options){
 }
 
 exports.prototype.setupEvents = function(){
+	var self = this;
 	this.socket.on("error", function(err) {
 		self.emit("error", err);
 	});
