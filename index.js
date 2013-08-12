@@ -1,6 +1,13 @@
 var events = require("events"),
 	net = require("net");
-//	SerialPort = require("serialport");
+	SerialPort = require("serialport");
+
+function zeroPad(str, length){
+	while(str.length < length){
+		str = "0" + str;
+	}
+	return str;
+}
 
 var exports = module.exports = function(ip, port, callback){
 	var self = this;
@@ -15,8 +22,8 @@ var exports = module.exports = function(ip, port, callback){
 		this.socket = new net.Socket();
 		this.socket.connect(port, ip, function() {
 			self.emit("connected");
+			self.setupEvents();
 		});
-		this.setupEvents();
 	}else if(!ip){
 		SerialPort.list(function(nothing, list){
 			if(!list || !list[0]){
@@ -41,8 +48,11 @@ var exports = module.exports = function(ip, port, callback){
 exports.prototype = new events.EventEmitter();
 
 exports.prototype.setupRS232 = function(port, options){
-	this.socket = new SerialPort.SerialPort(port, options, function(){
+	var self = this;
+	this.socket = new SerialPort.SerialPort(port, options, true);
+	this.socket.on("open", function(){
 		self.emit("connected");
+		self.setupEvents();
 	});
 }
 
@@ -70,7 +80,7 @@ function processChecksum(str){
 	for(var i = 0; i < str.length; i++){
 		checksum += str.charCodeAt(i);
 	}
-	return (checksum % 256).toString(16);
+	return zeroPad((checksum % 256).toString(16), 2);
 }
 
 exports.prototype.disconnect = function(){
@@ -99,7 +109,7 @@ exports.prototype.updateOnAirMessage = function(message, templateDataArray, buff
 
 exports.prototype.processCommand = function(str){
 	if(str[str.length - 1] != "\\"){
-		if(str.substring(str.length - 2).toLowerCase() !== processChecksum(str.substring(0, str.length - 2))){
+		if(str.substring(str.length - 2).toLowerCase() !== processChecksum(str.substring(0, str.length - 2)).toLowerCase()){
 			return; // Bad checksum; ignoring!
 		}
 	}
